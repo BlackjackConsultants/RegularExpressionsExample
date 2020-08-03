@@ -30,22 +30,17 @@ namespace RegularExpressionsExample
         [TestMethod]
         public void GetStringBetween2Characters()         {
             string pattern = @"(?<=\[)(.*?)(?=\])";
-            string input = " test[jorge perez] this is a test driver[lucre enriquez]";
+            string input = "[test]![jorge perez] this is a test [driver]![lucre enriquez]";
             // matches the first work only
             Match match = Regex.Match(input, pattern, RegexOptions.IgnoreCase);
             Assert.IsTrue(match.Success);
             // matches all the words.
-            var matches = Regex.Matches(input, pattern, RegexOptions.IgnoreCase);
-            Assert.AreEqual(matches.Count, 2);
-
-            string pattern2 = @"(?<=\ )(.*?)(?=\[)";
-            string input2 = " test[jorge perez] this is a test driver[lucre enriquez]";
-            // matches the first work only
-            Match match2 = Regex.Match(input2, pattern2, RegexOptions.IgnoreCase);
-            Assert.IsTrue(match2.Success);
-            // matches all the words.
-            var matches2 = Regex.Matches(input2, pattern2, RegexOptions.IgnoreCase);
-            Assert.AreEqual(matches2.Count, 2);
+            MatchCollection matches = Regex.Matches(input, pattern, RegexOptions.IgnoreCase);
+            Assert.AreEqual(matches.Count, 4);
+            Assert.AreEqual(matches[0].Value, "test");
+            Assert.AreEqual(matches[1].Value, "jorge perez");
+            Assert.AreEqual(matches[2].Value, "driver");
+            Assert.AreEqual(matches[3].Value, "lucre enriquez");
         }
     }
 }
